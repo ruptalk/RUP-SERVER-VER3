@@ -13,7 +13,10 @@ public class UserController {
         // Email, Password
         // 이메일 있는지, 있으면 비밀번호 맞는지 확인
         // 카카오톡 로그인은 UID만 확인?
-        return "Check isExistUser";
+
+        System.out.println("[LOG]: call /login");
+
+        return "call /login!!";
     }
 
     @PostMapping("/find-pw")

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -16,6 +17,6 @@ import javax.persistence.Id;
 public class Notice {
     @Id
     private int id;
-    private String noticeDate;
+    private String date;
     private String notice;
 }

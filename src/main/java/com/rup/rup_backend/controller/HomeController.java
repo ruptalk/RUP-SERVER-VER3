@@ -52,13 +52,33 @@ public class HomeController {
          * */
 
 
-        String uid = user.getUid();
+        String requestUid = user.getUid();
 
-        User userInfo = new User();
+        Optional<UserInfo> findUserInfo = uIRepo.findById(requestUid);
+        User returnUser = null;
 
+        if(findUserInfo.isPresent()){
+            // 유저 정보가 존재하면
+            String uid = findUserInfo.get().getUid();
+            String email = findUserInfo.get().getEmail();
+            String nickname = findUserInfo.get().getNickname();
+            String password = findUserInfo.get().getPassword();
+            String sex = findUserInfo.get().getSex();
+            String birth = findUserInfo.get().getBirth();
+//            String profile_photo_url = findUserInfo.get().getProfile_photo_url();
+            String college = findUserInfo.get().getCollege();
+            String major = findUserInfo.get().getMajor();
+            int point = findUserInfo.get().getPoint();
+            int count_recycle = findUserInfo.get().getCount_recycle();
 
-        
-        return userInfo;
+            returnUser = new User(uid, email, nickname, password, sex, birth, college, major, point, count_recycle);
+
+        }
+        else{
+            returnUser = new User("-1", "-1", "-1");
+        }
+
+        return returnUser;
     }
 
     @GetMapping("/notice-and-point-record")
@@ -66,7 +86,7 @@ public class HomeController {
         // param 받아오는 것 없이 요청 오면 Server -> Client 전달. JSON
 
         GetPointRecord pointRecord = new GetPointRecord(user.getUid());
-        NoticeAndPointRecord returnNoticeandPR = new NoticeAndPointRecord();
+        NoticeAndPointRecord returnNoticeandPR = null;
         /** Request
          * UID
          * */
@@ -77,15 +97,20 @@ public class HomeController {
          * pointRecordDate: [] (limit 20)
          * */
 
-//        List<Notice> notice = noticeRepo.
+        Optional<Notice> notice = noticeRepo.findNoticeByMaxDate();
+
+        if(notice.isPresent()){
+            returnNoticeandPR = new NoticeAndPointRecord();
+        }
+
+        System.out.println(notice);
 
         return returnNoticeandPR;
     }
 
     @PostMapping("/get-point-record")
-    public Success InsertPointRecord(@RequestBody GetPointRecord getPointRecord) {
+    public Success InsertPointRecord(@RequestBody GetPointRecord getPointRecord) throws Exception {
         String uid = getPointRecord.getUid();
-//        String insertDate = getPointRecord.getInsertDate();
         int point = getPointRecord.getPoint();
 
         Optional<UserInfo> findUid = uIRepo.findById(uid);
@@ -101,6 +126,15 @@ public class HomeController {
                     .point(point)
                     .build();
             pRRepo.save(pr);
+
+            System.out.println("get-point-record: " + pr.toString());
+
+            uIRepo.updateTotalPoint(point, uid);
+
+            findUid = uIRepo.findById(uid);
+
+            System.out.println("after-plus-point" + findUid.toString());
+
             returnSuccess.setSuccess(true);
 
         } else {

@@ -26,9 +26,22 @@ public class User {
     private List<String> calendarDate;
     private List<String> flower;
 
-    public User(String UID, String Email, String Password){
-        this.uid = UID;
-        this.email = Email;
-        this.password = Password;
+    public User(String uid, String email, String password){
+        this.uid = uid;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String uid, String email, String password, String nickname, String sex, String birth, String college, String major, int point, int countRecycle) {
+        this.uid = uid;
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.sex = sex;
+        this.birth = birth;
+        this.college = college;
+        this.major = major;
+        this.point = point;
+        this.countRecycle = countRecycle;
     }
 }

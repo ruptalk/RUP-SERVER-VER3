@@ -1,9 +1,6 @@
 package com.rup.rup_backend.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,6 +8,7 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class NoticeAndPointRecord {
     private String noticeDate;
     private String notice;

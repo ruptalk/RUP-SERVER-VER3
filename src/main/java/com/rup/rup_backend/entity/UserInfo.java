@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 @Entity(name="USER_INFO")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Data
 @ToString

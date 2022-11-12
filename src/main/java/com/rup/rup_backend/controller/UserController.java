@@ -1,5 +1,6 @@
 package com.rup.rup_backend.controller;
 
+import com.rup.rup_backend.dto.ReturnOnlyUid;
 import com.rup.rup_backend.dto.Success;
 import com.rup.rup_backend.dto.User;
 import com.rup.rup_backend.entity.UserInfo;
@@ -18,7 +19,7 @@ public class UserController {
         this.uIRepo = uIRepo;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login") // ㅇ
     public Success login(@RequestBody User user){
         // @RequestBody를 param으로 사용
         // Email, Password
@@ -29,7 +30,6 @@ public class UserController {
         String email = user.getEmail();
         String pw = user.getPassword();
         System.out.println(user.toString());
-        // https://wakestand.tistory.com/668
 
         Success returnSuccess = new Success();
         
@@ -64,7 +64,7 @@ public class UserController {
         return returnSuccess;
 
         /** Request(C->S)
-         * UID
+         * uid
          * email
          * password
         */
@@ -74,8 +74,8 @@ public class UserController {
          */
     }
 
-    @PostMapping("/find-pw-before-email")
-    public String findPwBeforeEmail(@RequestBody User user){
+    @PostMapping("/find-pw-before-email") // ㅇ
+    public ReturnOnlyUid findPwBeforeEmail(@RequestBody User user){
         // @RequestBody를 param으로 사용하기
         // Email, College, Major
         // 이메일과 학교, 학과를 동시에 찾음  -> 중복가능성 있음, 좀 더 세분화된 검증 필요할 듯
@@ -83,6 +83,8 @@ public class UserController {
 
         /** Request
          * email
+         * college
+         * major
          * */
 
         /** Response
@@ -94,14 +96,16 @@ public class UserController {
         String major = user.getMajor();
 
         Optional<UserInfo> findUid = uIRepo.findByEmailAndCollegeAndMajor(email, college, major);
+        ReturnOnlyUid returnUid = null;
 
         if(findUid.isPresent()){
             // Email && College && Major 동시에 만족하는 정보 있으면
-            return findUid.get().getUid();
+            returnUid = new ReturnOnlyUid(findUid.get().getUid());
         }
         else{
-            return "false";
+            returnUid = new ReturnOnlyUid("-1");
         }
+        return returnUid;
     }
 
     @PostMapping("/find-pw-after-email")
@@ -119,6 +123,7 @@ public class UserController {
 
         String uid = user.getUid();
         String temp_pw = user.getTempPw();
+        System.out.println(temp_pw);
 
         // UPDATE
 
@@ -127,10 +132,11 @@ public class UserController {
         return returnSuccess;
     }
 
-    @PostMapping("/add-new-user")
+    @PostMapping("/add-new-user") // ㅇ
     public Success addNewUser(@RequestBody User user){
         // @RequestBody를 param으로 사용, 받아옴 -> DB
         // 카카오톡 로그인 시 회원가입과 그냥 기본 회원가입의 폼이 같음, 동시에 사용
+
         /** Request(C->S)
          * UID
          * nickname
@@ -177,13 +183,27 @@ public class UserController {
 
         if(uIRepo.findByNickname(nickname).isEmpty()){
             // 이미 같은 닉네임 존재
-            returnSuccess.setSuccess(false);
+            returnSuccess.setSuccess(true);
         }
         else{
-            returnSuccess.setSuccess(true);
+            returnSuccess.setSuccess(false);
         }
         
         return returnSuccess;
+    }
+
+    @PostMapping("/update-user-info")
+    public String updateUserInfo(){
+
+        return "update-user-info";
+    }
+
+    @PostMapping("/delete-user")
+    public String deleteUser(@RequestBody User user){
+
+        String uid = user.getUid();
+
+        return "delete user";
     }
 
 //    @GetMapping("/personal-page")

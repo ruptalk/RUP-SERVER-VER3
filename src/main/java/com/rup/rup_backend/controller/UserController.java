@@ -5,8 +5,10 @@ import com.rup.rup_backend.dto.Success;
 import com.rup.rup_backend.dto.User;
 import com.rup.rup_backend.entity.UserInfo;
 import com.rup.rup_backend.repository.UserInfoRepository;
+import net.bytebuddy.asm.Advice;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -20,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping("/login") // ㅇ
-    public Success login(@RequestBody User user){
+    public ReturnOnlyUid login(@RequestBody User user){
         // @RequestBody를 param으로 사용
         // Email, Password
         // 이메일 있는지, 있으면 비밀번호 맞는지 확인
@@ -29,9 +31,8 @@ public class UserController {
         String uid = user.getUid();
         String email = user.getEmail();
         String pw = user.getPassword();
-        System.out.println(user.toString());
 
-        Success returnSuccess = new Success();
+        ReturnOnlyUid returnSuccess = new ReturnOnlyUid();
         
         if(uid == null){
             // 이메일 로그인이면 (uid가 없음)
@@ -40,24 +41,24 @@ public class UserController {
             if(loginInfo.isEmpty()){
                 // 로그인 정보 일치 X
                 System.out.println("이메일 로그인 - 로그인 정보 일치 X");
-                returnSuccess.setSuccess(false);
+                returnSuccess.setUid("-1");
             }
-            else if(loginInfo.get().getEmail() == email && loginInfo.get().getPassword() == pw){
-                System.out.println("이메일 로그인 - 로그인 정보 일치 O");
-                returnSuccess.setSuccess(true);
+            else if(loginInfo.get().getEmail().equals(email) && Objects.equals(loginInfo.get().getPassword(), pw)){
+                System.out.println("이메일 로그인 - 로그인 정보 일치 O" + loginInfo.get().getUid());
+                returnSuccess.setUid(loginInfo.get().getUid());
             }
         }
         else{
             // 카카오톡 로그인이면
             Optional<UserInfo> loginInfo = uIRepo.findById(uid);
-            if(loginInfo.isPresent() && loginInfo.get().getUid() == uid){
-                System.out.println("카카오톡 로그인 - 아이디 존재 O");
-                System.out.println(uid);
-                returnSuccess.setSuccess(true);
+            System.out.println(loginInfo);
+            if(loginInfo.isPresent() && loginInfo.get().getUid().equals(uid)){
+                System.out.println("카카오톡 로그인 - 아이디 존재 O"+ loginInfo.get().getUid());
+                returnSuccess.setUid(loginInfo.get().getUid());
             }
             else{
                 System.out.println("카카오톡 로그인 - 아이디 존재 X");
-                returnSuccess.setSuccess(false);
+                returnSuccess.setUid("-1");
             }
         }
 

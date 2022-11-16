@@ -9,10 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class GetPointRecord {
     public String uid;
-    public String insertDate;
+    public String date;
     public int point;
-
-    public GetPointRecord(String uid){
-        this.uid = uid;
-    }
 }

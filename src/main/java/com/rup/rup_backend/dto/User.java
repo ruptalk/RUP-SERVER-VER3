@@ -1,9 +1,6 @@
 package com.rup.rup_backend.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,7 +8,8 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor
-public class User {
+@AllArgsConstructor
+public class User<calendar, flower> {
     private String uid;
     private String email;
     private String password;
@@ -23,8 +21,8 @@ public class User {
     private String major;
     private int point;
     private int countRecycle;
-    private List<String> calendarDate;
-    private List<String> flower;
+    private calendar calendarDate;
+    private flower flowerRecord;
 
     public User(String uid, String email, String password){
         this.uid = uid;
@@ -32,7 +30,20 @@ public class User {
         this.password = password;
     }
 
-    public User(String uid, String email, String password, String nickname, String sex, String birth, String college, String major, int point, int countRecycle) {
+    public User(String uid, String email, String nickname, String password, String sex, String birth, String college, String major, int point, int countRecycle) {
+        this.uid = uid;
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+        this.sex = sex;
+        this.birth = birth;
+        this.college = college;
+        this.major = major;
+        this.point = point;
+        this.countRecycle = countRecycle;
+    }
+
+    public User(String uid, String email, String password, String nickname, String sex, String birth, String college, String major, int point, int countRecycle, calendar calendarDate, flower flowerRecord) {
         this.uid = uid;
         this.email = email;
         this.password = password;
@@ -43,5 +54,7 @@ public class User {
         this.major = major;
         this.point = point;
         this.countRecycle = countRecycle;
+        this.calendarDate = calendarDate;
+        this.flowerRecord = flowerRecord;
     }
 }

@@ -18,7 +18,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE USER_INFO U SET U.point = U.point + :point WHERE U.UID = :uid", nativeQuery = true)
-    void updateTotalPoint(@Param("point")int point, @Param("uid")String uid) throws Exception;
+    @Query(value = "UPDATE USER_INFO U SET U.point = U.point + :point, U.Count_recycle = U.Count_recycle + :point WHERE U.UID = :uid", nativeQuery = true)
+    void updateTotalPointAndRecycle(@Param("point")int point, @Param("uid")String uid) throws Exception;
 }
 

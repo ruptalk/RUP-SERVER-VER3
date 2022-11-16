@@ -9,12 +9,11 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoticeAndPointRecord {
+public class NoticeAndPointRecord<records> {
     private String noticeDate;
     private String notice;
 
     private String uid;
     private String email;
-    private List<String> pointRecordDate;
-    private List<Integer> point;
+    private records pointRecord;
 }

@@ -17,7 +17,7 @@ public class FlowerInfo {
     @Id
     private int id;
     private String uid;
-    private String kindOfFlower;
+    private String flower;
     private String flowerNickname;
     private int flowerGrownLevel;
     private String date;

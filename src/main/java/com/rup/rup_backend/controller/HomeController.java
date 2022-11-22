@@ -30,40 +30,20 @@ public class HomeController {
         this.flowerRepo = flowerRepo;
     }
 
+    int maxLevel = 30; // 꽃 최대 성장 정도
+
     @GetMapping("/main")
-    public User mainPage(@RequestBody User user){
-        // param 받아오는 것 없이 요청 오면 Server -> Client 전달. JSON
+    public User mainPage(@RequestParam String uid){
 
-        /** Request
-         * UID
-         * */
-
-        /** Response
-         * UID
-         * nickname
-         * email
-         * password
-         * sex
-         * birth
-         * college
-         * major
-         * recycleCount
-         * point
-         * calendarDate: []
-         * flowerInfo: []
-         * */
-
-        String requestUid = user.getUid();
-
-        Optional<UserInfo> findUserInfo = uIRepo.findById(requestUid);
+        Optional<UserInfo> findUserInfo = uIRepo.findById(uid);
         User returnUser;
 
         if(findUserInfo.isPresent()){
             // 유저 정보가 존재하면
-            String uid = findUserInfo.get().getUid();
+            String newUid = findUserInfo.get().getUid();
             String email = findUserInfo.get().getEmail();
-            String nickname = findUserInfo.get().getNickname();
             String password = findUserInfo.get().getPassword();
+            String nickname = findUserInfo.get().getNickname();
             String sex = findUserInfo.get().getSex();
             String birth = findUserInfo.get().getBirth();
 //            String profile_photo_url = findUserInfo.get().getProfile_photo_url();
@@ -72,23 +52,23 @@ public class HomeController {
             int point = findUserInfo.get().getPoint();
             int count_recycle = findUserInfo.get().getCount_recycle();
 
-            List<PointRecord> findRecycledDate = pRRepo.findCalendarDate(requestUid);
+            List<PointRecord> findRecycledDate = pRRepo.findCalendarDate(uid);
             List<GetPointRecord> calendarDate = findRecycledDate
                     .stream()
                     .map(c -> new GetPointRecord(c.getUid(), c.getDate(), c.getPoint()))
                     .collect(Collectors.toList());
 
-            List<FlowerInfo> findFlowerInfo = flowerRepo.findFlowerInfoByUid(requestUid);
+            List<FlowerInfo> findFlowerInfo = flowerRepo.findFlowerInfoByUid(uid);
             List<Flower> flowers = findFlowerInfo
                     .stream()
-                    .map(f -> new Flower(f.getUid(), f.getKindOfFlower(), f.getFlowerNickname(), f.getFlowerGrownLevel(), f.getDate()))
+                    .map(f -> new Flower(f.getUid(), f.getFlower(), f.getFlowerNickname(), f.getFlowerGrownLevel(), f.getDate()))
                     .collect(Collectors.toList());
 
             returnUser = new User(
-                    uid,
+                    newUid,
                     email,
-                    nickname,
                     password,
+                    nickname,
                     sex,
                     birth,
                     college,
@@ -108,20 +88,7 @@ public class HomeController {
     }
 
     @GetMapping("/notice-and-point-record")
-    public NoticeAndPointRecord noticeAndRecord(@RequestBody User user){
-
-        String uid = user.getUid();
-
-        /** Request
-         * uid
-         * */
-
-        /** Response
-         * uid
-         * email
-         * notice
-         * pointRecordDate: [] (limit 20)
-         * */
+    public NoticeAndPointRecord noticeAndRecord(@RequestParam String uid){
 
         Optional<Notice> notice = noticeRepo.findNoticeByMaxDate();
         List<PointRecord> findRecords = pRRepo.findPointRecord(uid);
@@ -161,14 +128,8 @@ public class HomeController {
             String userEmail = findUid.get().getEmail();
 
             pRRepo.insertPointRecord(uid, userEmail, point);
-
-            System.out.println("get-point-record: " + getPointRecord.toString());
-
             uIRepo.updateTotalPointAndRecycle(point, uid);
-
-            findUid = uIRepo.findById(uid);
-
-            System.out.println("after-plus-point" + findUid.toString());
+            flowerRepo.updateFlowerGrownLevel(point, uid, maxLevel);
 
             returnSuccess.setSuccess(true);
 

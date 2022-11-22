@@ -21,12 +21,8 @@ public class UserController {
         this.uIRepo = uIRepo;
     }
 
-    @PostMapping("/login") // ㅇ
+    @PostMapping("/login")
     public ReturnOnlyUid login(@RequestBody User user){
-        // @RequestBody를 param으로 사용
-        // Email, Password
-        // 이메일 있는지, 있으면 비밀번호 맞는지 확인
-        // 카카오톡 로그인은 UID만 확인
 
         String uid = user.getUid();
         String email = user.getEmail();
@@ -75,12 +71,10 @@ public class UserController {
          */
     }
 
-    @PostMapping("/find-pw-before-email") // ㅇ
+    @PostMapping("/find-pw-before-email")
     public ReturnOnlyUid findPwBeforeEmail(@RequestBody User user){
-        // @RequestBody를 param으로 사용하기
         // Email, College, Major
         // 이메일과 학교, 학과를 동시에 찾음  -> 중복가능성 있음, 좀 더 세분화된 검증 필요할 듯
-        // 재설정하나 ?
 
         /** Request
          * email
@@ -133,23 +127,10 @@ public class UserController {
         return returnSuccess;
     }
 
-    @PostMapping("/add-new-user") // ㅇ
+    @PostMapping("/add-new-user")
     public Success addNewUser(@RequestBody User user){
         // @RequestBody를 param으로 사용, 받아옴 -> DB
         // 카카오톡 로그인 시 회원가입과 그냥 기본 회원가입의 폼이 같음, 동시에 사용
-
-        /** Request(C->S)
-         * UID
-         * nickname
-         * email
-         * password
-         * sex
-         * birth
-         */
-
-        /** Response
-         * success: 1
-         * */
         
         String UID = user.getUid();
         Success returnSuccess = new Success();
@@ -195,7 +176,13 @@ public class UserController {
 
     @PostMapping("/update-user-info")
     public String updateUserInfo(){
-
+        //email
+        //password
+        //nickname
+        //sex
+        //birth
+        //college
+        //major
         return "update-user-info";
     }
 

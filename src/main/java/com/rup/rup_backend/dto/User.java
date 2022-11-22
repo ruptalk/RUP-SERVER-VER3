@@ -30,19 +30,6 @@ public class User<calendar, flower> {
         this.password = password;
     }
 
-    public User(String uid, String email, String nickname, String password, String sex, String birth, String college, String major, int point, int countRecycle) {
-        this.uid = uid;
-        this.email = email;
-        this.nickname = nickname;
-        this.password = password;
-        this.sex = sex;
-        this.birth = birth;
-        this.college = college;
-        this.major = major;
-        this.point = point;
-        this.countRecycle = countRecycle;
-    }
-
     public User(String uid, String email, String password, String nickname, String sex, String birth, String college, String major, int point, int countRecycle, calendar calendarDate, flower flowerRecord) {
         this.uid = uid;
         this.email = email;

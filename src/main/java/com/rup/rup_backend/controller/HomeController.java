@@ -61,7 +61,7 @@ public class HomeController {
             List<FlowerInfo> findFlowerInfo = flowerRepo.findFlowerInfoByUid(uid);
             List<Flower> flowers = findFlowerInfo
                     .stream()
-                    .map(f -> new Flower(f.getUid(), f.getFlower(), f.getFlowerNickname(), f.getFlowerGrownLevel(), f.getDate()))
+                    .map(f -> new Flower(f.getUid(), f.getFlower(), f.getFlower_nickname(), f.getFlower_grown_level(), f.getDate()))
                     .collect(Collectors.toList());
 
             returnUser = new User(

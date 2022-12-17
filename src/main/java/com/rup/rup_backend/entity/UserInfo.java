@@ -23,7 +23,6 @@ public class UserInfo {
     private String nickname;
     private String sex;
     private String birth;
-    private String profile_photo_url;
     private String college;
     private String major;
     private int point;

@@ -17,6 +17,7 @@ public class User<calendar, flower> {
     private String nickname;
     private String sex;
     private String birth;
+    private String profileImgPath;
     private String college;
     private String major;
     private int point;
@@ -30,13 +31,14 @@ public class User<calendar, flower> {
         this.password = password;
     }
 
-    public User(String uid, String email, String password, String nickname, String sex, String birth, String college, String major, int point, int countRecycle, calendar calendarDate, flower flowerRecord) {
+    public User(String uid, String email, String password, String nickname, String sex, String birth, String profileImgPath, String college, String major, int point, int countRecycle, calendar calendarDate, flower flowerRecord) {
         this.uid = uid;
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.sex = sex;
         this.birth = birth;
+        this.profileImgPath = profileImgPath;
         this.college = college;
         this.major = major;
         this.point = point;

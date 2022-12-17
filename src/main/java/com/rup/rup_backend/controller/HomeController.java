@@ -9,8 +9,10 @@ import com.rup.rup_backend.repository.FlowerRepository;
 import com.rup.rup_backend.repository.NoticeRepository;
 import com.rup.rup_backend.repository.PointRecordRepository;
 import com.rup.rup_backend.repository.UserInfoRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +32,12 @@ public class HomeController {
         this.flowerRepo = flowerRepo;
     }
 
+    @Value("${custom.path.server.server-address}")
+    private String localPath;
+
+    @Value("${custom.path.user.user-images-path}")
+    private String imgPath;
+
     int maxLevel = 30; // 꽃 최대 성장 정도
 
     @GetMapping("/main")
@@ -46,7 +54,6 @@ public class HomeController {
             String nickname = findUserInfo.get().getNickname();
             String sex = findUserInfo.get().getSex();
             String birth = findUserInfo.get().getBirth();
-//            String profile_photo_url = findUserInfo.get().getProfile_photo_url();
             String college = findUserInfo.get().getCollege();
             String major = findUserInfo.get().getMajor();
             int point = findUserInfo.get().getPoint();
@@ -61,16 +68,24 @@ public class HomeController {
             List<FlowerInfo> findFlowerInfo = flowerRepo.findFlowerInfoByUid(uid);
             List<Flower> flowers = findFlowerInfo
                     .stream()
-                    .map(f -> new Flower(f.getUid(), f.getFlower(), f.getFlowerNickname(), f.getFlowerGrownLevel(), f.getDate()))
+                    .map(f -> new Flower(f.getUid(), f.getFlower(), f.getFlower_nickname(), f.getFlower_grown_level(), f.getDate()))
                     .collect(Collectors.toList());
 
+            File isExistPfImg = new File(imgPath + uid + ".jpg");
+            String profilePath = "";
+
+            if(isExistPfImg.exists()){
+                profilePath = localPath + "/user/user-profile-image/" + uid;
+            }
+
             returnUser = new User(
-                    newUid,
+                    uid,
                     email,
                     password,
                     nickname,
                     sex,
                     birth,
+                    profilePath,
                     college,
                     major,
                     point,

@@ -15,10 +15,17 @@ public class ShowImageController {
         return "showImg";
     }
 
-    @GetMapping("/flower/flower-image/{flowerNum}")
-    public String showFlowerGif(@PathVariable String flowerNum, Model model){
+    @GetMapping("/flower/flower-image-png/{flowerNum}")
+    public String showFlowerPng(@PathVariable String flowerNum, Model model){
         model.addAttribute("title", flowerNum);
         model.addAttribute("imgPath", "/show-flower-image/" + flowerNum + "/" + flowerNum + ".png");
+        return "showImg";
+    }
+
+    @GetMapping("/flower/flower-image-gif/{flowerNum}_{grownLevel}")
+    public String showFlowerGif(@PathVariable String flowerNum, @PathVariable String grownLevel, Model model){
+        model.addAttribute("title", flowerNum);
+        model.addAttribute("imgPath", "/show-flower-image/" + flowerNum + "/" + flowerNum + "_" + grownLevel + ".gif");
         return "showImg";
     }
 }

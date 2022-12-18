@@ -1,8 +1,6 @@
 package com.rup.rup_backend.entity;
 
 import lombok.*;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -10,7 +8,6 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Data
 @ToString
 public class UserInfo {
 

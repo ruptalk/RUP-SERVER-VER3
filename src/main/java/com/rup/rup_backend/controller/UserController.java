@@ -171,11 +171,23 @@ public class UserController {
         return returnSuccess;
     }
 
-    @PostMapping("/delete-user")
-    public String deleteUser(@RequestBody User user) {
+    @PostMapping("/delete-user-info")
+    public Success deleteUser(@RequestBody User user) {
 
         String uid = user.getUid();
 
-        return "delete user";
+        Success returnSuccess = new Success();
+
+        try{
+            if(uid != null){
+                uIRepo.deleteUserInfo(uid);
+                returnSuccess.setSuccess(true);
+            }
+        }
+        catch(Exception e){
+            returnSuccess.setSuccess(false);
+        }
+
+        return returnSuccess;
     }
 }

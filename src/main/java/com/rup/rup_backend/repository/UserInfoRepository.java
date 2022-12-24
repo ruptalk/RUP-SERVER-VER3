@@ -41,5 +41,10 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
                         @Param("major")String major,
                         @Param("uid")String uid
                         ) throws Exception;
+
+    @Transactional
+    @Modifying
+    @Query(value="DELETE FROM USER_INFO WHERE UID = :uid", nativeQuery = true)
+    void deleteUserInfo(@Param("uid")String uid);
 }
 

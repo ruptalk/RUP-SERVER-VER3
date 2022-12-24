@@ -75,7 +75,7 @@ public class HomeController {
             String profilePath = "";
 
             if(isExistPfImg.exists()){
-                profilePath = localPath + "/user/user-profile-image/" + uid;
+                profilePath = localPath + "/show-user-image/" + uid + ".jpg";
             }
 
             returnUser = new User(

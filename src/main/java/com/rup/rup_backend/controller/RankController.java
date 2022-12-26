@@ -3,9 +3,7 @@ package com.rup.rup_backend.controller;
 import com.rup.rup_backend.dto.Rank;
 import com.rup.rup_backend.entity.RankInfo;
 import com.rup.rup_backend.repository.RankRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,10 +29,12 @@ public class RankController {
         return collegeRank;
     }
 
-    @GetMapping("/each-rank")
-    public List<Rank> showEachRank(){
+    @PostMapping("/college-each-rank")
+    public List<Rank> showEachRank(@RequestBody Rank rank){
 
-        List<RankInfo> selectCollegeRank = rankRepo.findRankAllUID();
+        String college = rank.getCollege();
+
+        List<RankInfo> selectCollegeRank = rankRepo.findRankAllByCollege(college);
         List<Rank> collegeRank = selectCollegeRank
                 .stream()
                 .map(r -> new Rank(r.getUid(), r.getRank(), r.getCollege(), r.getTotalPoint()))

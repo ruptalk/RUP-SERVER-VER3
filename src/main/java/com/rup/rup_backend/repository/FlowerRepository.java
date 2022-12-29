@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface FlowerRepository extends JpaRepository<FlowerInfo, Integer> {
-    @Query(value = "SELECT * FROM FLOWER_TABLE WHERE UID = :uid", nativeQuery = true)
+    @Query(value = "SELECT * FROM FLOWER_TABLE WHERE UID = :uid ORDER BY Flower_grown_level", nativeQuery = true)
     List<FlowerInfo> findFlowerInfoByUid(@Param("uid")String uid);
 
     @Transactional
@@ -20,6 +20,6 @@ public interface FlowerRepository extends JpaRepository<FlowerInfo, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE FLOWER_TABLE SET Flower_grown_level = Flower_grown_level + :point WHERE UID = :uid AND Flower_grown_level != :maxGrownLevel", nativeQuery = true)
+    @Query(value = "UPDATE FLOWER_TABLE SET Flower_grown_level = Flower_grown_level + :point WHERE UID = :uid AND Flower_grown_level < :maxGrownLevel", nativeQuery = true)
     void updateFlowerGrownLevel(@Param("point")int point, @Param("uid")String uid, @Param("maxGrownLevel")int maxGrownLevel);
 }

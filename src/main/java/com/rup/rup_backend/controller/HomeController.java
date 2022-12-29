@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,6 +40,18 @@ public class HomeController {
     private String imgPath;
 
     int maxLevel = 30; // 꽃 최대 성장 정도
+    HashMap<String, Integer> kindOfFlowers = new HashMap<String, Integer>(){{
+        put("flowerA", 0);
+        put("flowerB", 1);
+        put("flowerC", 2);
+        put("flowerD", 3);
+        put("flowerE", 4);
+        put("flowerF", 5);
+        put("flowerG", 6);
+        put("flowerH", 7);
+        put("flowerI", 8);
+        put("flowerJ", 9);
+    }};
 
     @GetMapping("/main")
     public User mainPage(@RequestParam String uid){
@@ -71,6 +84,12 @@ public class HomeController {
                     .map(f -> new Flower(f.getUid(), f.getFlower(), f.getFlower_nickname(), f.getFlower_grown_level(), f.getDate()))
                     .collect(Collectors.toList());
 
+            int nowFlowerSeed = 10;
+
+            if(!flowers.isEmpty()){
+                nowFlowerSeed = kindOfFlowers.getOrDefault(flowers.get(0).getFlower(), 10);
+            }
+
             File isExistPfImg = new File(imgPath + uid + ".jpg");
             String profilePath = "";
 
@@ -91,6 +110,7 @@ public class HomeController {
                     point,
                     count_recycle,
                     calendarDate,
+                    nowFlowerSeed,
                     flowers
             );
 

@@ -86,7 +86,7 @@ public class HomeController {
 
             int nowFlowerSeed = 10;
 
-            if(!flowers.isEmpty()){
+            if(!flowers.isEmpty() && flowers.get(0).getFlowerGrownLevel() < 30){
                 nowFlowerSeed = kindOfFlowers.getOrDefault(flowers.get(0).getFlower(), 10);
             }
 

@@ -37,7 +37,7 @@ public class RankController {
         List<RankInfo> selectCollegeRank = rankRepo.findRankAllByCollege(college);
         List<Rank> collegeRank = selectCollegeRank
                 .stream()
-                .map(r -> new Rank(r.getUid(), r.getRank(), r.getCollege(), r.getTotalPoint()))
+                .map(r -> new Rank(r.getNickname(), r.getRank(), r.getCollege(), r.getTotalPoint()))
                 .collect(Collectors.toList());
 
         return collegeRank;

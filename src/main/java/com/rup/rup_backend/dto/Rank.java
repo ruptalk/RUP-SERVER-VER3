@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Rank {
-    private String uid;
+    private String nickname;
     private int rank;
     private String college;
     private int totalPoint;
@@ -18,4 +18,5 @@ public class Rank {
         this.college = college;
         this.totalPoint = totalPoint;
     }
+
 }

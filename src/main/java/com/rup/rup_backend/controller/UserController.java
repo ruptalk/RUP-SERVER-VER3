@@ -85,14 +85,20 @@ public class UserController {
     }
 
     @PostMapping("/find-pw-after-email")
-    public Success findPwAfterEmail(@RequestBody User user) {
+    public Success findPwAfterEmail(@RequestBody User user) throws Exception {
 
         String uid = user.getUid();
         String temp_pw = user.getTempPw();
 
-        // UPDATE
-
         Success returnSuccess = new Success();
+
+        try{
+            uIRepo.updateTemporaryPassword(temp_pw, uid);
+            returnSuccess.setSuccess(true);
+        }
+        catch(Exception e){
+            returnSuccess.setSuccess(false);
+        }
 
         return returnSuccess;
     }

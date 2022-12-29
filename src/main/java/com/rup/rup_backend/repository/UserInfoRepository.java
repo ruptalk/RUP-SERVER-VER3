@@ -22,6 +22,11 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 
     @Transactional
     @Modifying
+    @Query(value = "UPDATE USER_INFO U SET U.Password = :password WHERE U.UID = :uid", nativeQuery = true)
+    void updateTemporaryPassword(@Param("password")String tempPw, @Param("uid")String uid) throws Exception;
+
+    @Transactional
+    @Modifying
     @Query(value="UPDATE USER_INFO U SET " +
             "U.Email = :email," +
             "U.Password = :password," +
@@ -46,5 +51,6 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
     @Modifying
     @Query(value="DELETE FROM USER_INFO WHERE UID = :uid", nativeQuery = true)
     void deleteUserInfo(@Param("uid")String uid);
+
 }
 

@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @ToString
 public class RankInfo {
     @Id
-    private String uid;
+    private String nickname;
     private int rank;
     private String college;
     private int totalPoint;

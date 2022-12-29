@@ -23,6 +23,7 @@ public class User<calendar, flower> {
     private int point;
     private int countRecycle;
     private calendar calendarDate;
+    private int nowFlowerSeed;
     private flower flowerRecord;
 
     public User(String uid, String email, String password){
@@ -31,7 +32,7 @@ public class User<calendar, flower> {
         this.password = password;
     }
 
-    public User(String uid, String email, String password, String nickname, String sex, String birth, String profileImgPath, String college, String major, int point, int countRecycle, calendar calendarDate, flower flowerRecord) {
+    public User(String uid, String email, String password, String nickname, String sex, String birth, String profileImgPath, String college, String major, int point, int countRecycle, calendar calendarDate, int nowFlowerSeed, flower flowerRecord) {
         this.uid = uid;
         this.email = email;
         this.password = password;
@@ -44,6 +45,7 @@ public class User<calendar, flower> {
         this.point = point;
         this.countRecycle = countRecycle;
         this.calendarDate = calendarDate;
+        this.nowFlowerSeed = nowFlowerSeed;
         this.flowerRecord = flowerRecord;
     }
 }

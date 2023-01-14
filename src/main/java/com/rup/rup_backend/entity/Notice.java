@@ -17,5 +17,6 @@ public class Notice {
     @Id
     private int id;
     private String date;
+    private String title;
     private String notice;
 }

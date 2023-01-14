@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class NoticeAndPointRecord<records> {
     private String noticeDate;
+    private String title;
     private String notice;
 
     private String uid;

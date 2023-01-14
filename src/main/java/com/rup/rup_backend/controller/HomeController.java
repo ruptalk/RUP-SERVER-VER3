@@ -139,6 +139,7 @@ public class HomeController {
 
             return new NoticeAndPointRecord(
                     notice.get().getDate(),
+                    notice.get().getTitle(),
                     notice.get().getNotice(),
                     findRecords.get(0).getUid(),
                     findRecords.get(0).getEmail(),
